@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': {
+        target: 'http://kationdev.com/dev/vue-blog/api/v1',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {'^/api': ''}
+      }
+    },
+    logLevel: 'debug',
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
