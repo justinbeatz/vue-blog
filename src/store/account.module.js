@@ -39,6 +39,7 @@ const actions = {
   },
 };
 
+/* eslint-disable no-unused-vars */
 const mutations = {
   loginRequest(state, username) {
     state.status = { loggingIn: true };

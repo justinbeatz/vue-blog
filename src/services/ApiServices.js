@@ -2,18 +2,18 @@ import Api from './Api';
 
 export default {
   login(params) {
-    return Api().post('http://kationdev.com/dev/vue-blog/api/v1/signIn', {
+    return Api().post('/signIn', {
       email: params.username,
       password: params.password,
     });
   },
   register(params) {
-    return Api().post('http://kationdev.com/dev/vue-blog/api/v1/register', {
+    return Api().post('/register', {
       email: params.username,
       password: params.password,
     });
   },
   feed() {
-    return Api().get('http://kationdev.com/dev/vue-blog/api/v1/newsfeed');
+    return Api().get('/newsfeed');
   },
 };

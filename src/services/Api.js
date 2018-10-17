@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default() => axios.create({
-  baseURL: 'http://kationdev.com/dev/vue-blog/api/v1',
+  baseURL: process.env.VUE_APP_API_URL,
   withCredentials: false,
   crossdomain: true,
   headers: {

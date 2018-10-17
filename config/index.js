@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://kationdev.com/dev/vue-blog/api/v1',
+        target: process.env.VUE_APP_API_URL,
         secure: false,
         changeOrigin: true,
         pathRewrite: {'^/api': ''}
