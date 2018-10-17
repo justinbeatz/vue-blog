@@ -16,4 +16,7 @@ export default {
   feed() {
     return Api().get('/newsfeed');
   },
+  getPost(params) {
+    return Api().get(`/getpost/${params.id}`);
+  },
 };

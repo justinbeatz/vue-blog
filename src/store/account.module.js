@@ -48,6 +48,7 @@ const mutations = {
   loginSuccess(state, username) {
     state.status = { loggedIn: true };
     state.user = username;
+    localStorage.setItem('user', JSON.stringify(username));
   },
   loginFailure(state) {
     state.status = {};
@@ -56,6 +57,7 @@ const mutations = {
   logout(state) {
     state.status = {};
     state.user = null;
+    localStorage.removeItem('user');
   },
   registerRequest(state, user) {
     state.status = { registering: true };

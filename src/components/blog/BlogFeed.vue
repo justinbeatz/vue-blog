@@ -19,7 +19,7 @@
               <div class="card-body">
                 <h2 class="card-title">{{ post.title }}</h2>
                 <p class="card-text">{{ post.excerpt}}</p>
-                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                <router-link :to="`/blog/${ post.id }`">Read More &rarr;</router-link>
               </div>
               <div class="card-footer text-muted">
                 Posted on January 1, 2017 by
@@ -114,6 +114,8 @@
 import ApiServices from '../../services/ApiServices';
 
 export default {
+  name: 'blog-feed',
+  resource: 'BlogFeed',
   data() {
     return {
       feed: [],
