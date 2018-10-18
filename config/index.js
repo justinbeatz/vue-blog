@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': {
+        target: process.env.VUE_APP_API_URL,
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {'^/api': ''}
+      }
+    },
+    logLevel: 'debug',
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
