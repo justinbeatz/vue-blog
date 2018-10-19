@@ -190,6 +190,7 @@
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 import ApiServices from '../../services/ApiServices';
 
 export default {
@@ -203,8 +204,16 @@ export default {
       image: '',
     };
   },
+  computed: {
+    ...mapActions({
+      togglePost: 'blog/toggleBlogPost',
+    }),
+  },
   mounted() {
     this.getPost();
+    // this.$nextTick(() => {
+    //   this.togglePost(true);
+    // });
   },
   methods: {
     async getPost() {
@@ -220,6 +229,9 @@ export default {
         /* eslint-disable no-console */
         console.log(e);
       }
+    },
+    setOnPost() {
+      this.togglePost(true);
     },
   },
 };

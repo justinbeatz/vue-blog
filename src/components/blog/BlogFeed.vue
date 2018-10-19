@@ -19,7 +19,8 @@
               <div class="card-body">
                 <h2 class="card-title">{{ post.title }}</h2>
                 <p class="card-text">{{ post.excerpt}}</p>
-                <router-link :to="`/blog/${ post.id }`">Read More &rarr;</router-link>
+                <router-link :to="`/blog/${ post.id }`" @click="setList()">
+                Read More &rarr;</router-link>
               </div>
               <div class="card-footer text-muted">
                 Posted on January 1, 2017 by
@@ -135,6 +136,9 @@ export default {
         /* eslint-disable no-console */
         console.log(e);
       }
+    },
+    setList() {
+      this.$store.commit('setBlogPost', true);
     },
   },
 };

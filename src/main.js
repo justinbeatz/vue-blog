@@ -14,6 +14,18 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 
+// router.beforeEach((to, from, next) => {
+//   if (from.name === 'BlogFeed' && to.name === 'BlogPost') {
+//     store.dispatch('toggleBlogPost', true);
+//     next();
+//   } else if (to.name === 'BlogPost') {
+//     store.dispatch('toggleBlogPost', true);
+//     next();
+//   } else {
+//     next();
+//   }
+// });
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
