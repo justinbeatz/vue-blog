@@ -13,9 +13,11 @@
 
           <!-- Blog Post -->
           <ul>
-            <li v-for="post in feed" :key="post.id">
+            <li v-for="post in feed" :key="post.id" @mouseover="isUserLogged = true"
+             @mouseout="isUserLogged = false">
+              <div v-show="isUserLogged"><font-awesome-icon :icon="['far', 'times-circle']"/></div>
               <div class="card mb-4">
-              <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+              <img class="card-img-top" :src="post.imgUrl" :alt="post.title">
               <div class="card-body">
                 <h2 class="card-title">{{ post.title }}</h2>
                 <p class="card-text">{{ post.excerpt}}</p>
@@ -23,8 +25,9 @@
                 Read More &rarr;</router-link>
               </div>
               <div class="card-footer text-muted">
-                Posted on January 1, 2017 by
-                <a href="#">Start Bootstrap</a>
+                <router-link :to="`/blog/${ post.id }`" @click="setList()">
+                Posted on {{ post.date }}</router-link> by
+                <a href="#">{{ post.author }}</a>
               </div>
             </div>
             </li>
@@ -120,6 +123,8 @@ export default {
   data() {
     return {
       feed: [],
+      showDelete: true,
+      isUserLogged: false,
     };
   },
   mounted() {

@@ -23,26 +23,24 @@ const actions = {
     ApiServices.logout({ rememberToken, token });
     commit('logout');
   },
-  test() {
-    ApiServices.test();
-  },
   register({ dispatch, commit }, userdata) {
     commit('registerRequest', userdata);
 
     ApiServices.register(userdata)
-      .then(
-        (response) => {
-          commit('registerSuccess', response);
-          router.push('/login');
-          setTimeout(() => {
-            // display success message after route change completes
-            dispatch('alert/success', 'Registration successful', { root: true });
-          });
-        },
-        (error) => {
-          commit('registerFailure', error);
-          dispatch('alert/error', error, { root: true });
+      .then((response) => {
+        console.log(response);
+        commit('registerSuccess', response);
+        router.push('/login');
+        setTimeout(() => {
+          // display success message after route change completes
+          dispatch('alert/success', 'Registration successful', { root: true });
         });
+      },
+      (error) => {
+        // console.log(error.response);
+        commit('registerFailure', error);
+        dispatch('alert/error', error.response, { root: true });
+      });
   },
 };
 

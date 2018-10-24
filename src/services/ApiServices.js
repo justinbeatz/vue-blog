@@ -15,9 +15,10 @@ export default {
     });
   },
   register(params) {
-    return Api.post('/register', {
+    return Api.post('/signup', {
       email: params.username,
       password: params.password,
+      password_confirmation: params.passwordConfirmation,
     });
   },
   feed() {

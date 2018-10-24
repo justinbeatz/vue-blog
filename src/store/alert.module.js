@@ -1,4 +1,10 @@
+import Vue from 'vue';
+import Toastr from 'vue-toastr';
+import 'vue-toastr/dist/vue-toastr.css';
 
+Vue.use(Toastr);
+
+const self = new Vue();
 
 const actions = {
   success({ commit }, message) {
@@ -17,9 +23,10 @@ const mutations = {
     state.type = 'alert-success';
     state.message = message;
   },
-  error(state, message) {
+  error(state, response) {
     state.type = 'alert-danger';
-    state.message = message;
+    state.message = response.data.message;
+    self.$toastr.e(response.data.message, response.data.error);
   },
   clear(state) {
     state.type = null;
