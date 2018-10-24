@@ -19,9 +19,10 @@
                         </div>
 
                         <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <input type="checkbox" class="custom-control-input" id="rememberMe"
+                            v-model="remember">
                             <label class="custom-control-label"
-                            for="customCheck1">Remember password</label>
+                            for="rememberMe">Remember Me</label>
                         </div>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase"
                         type="submit">Sign in</button>
@@ -43,6 +44,7 @@ export default {
     return {
       username: '',
       password: '',
+      remember: false,
       submitted: false,
     };
   },
@@ -53,9 +55,9 @@ export default {
     ...mapActions('account', ['login', 'logout']),
     handleSubmit() {
       this.submitted = true;
-      const { username, password } = this;
+      const { username, password, remember } = this;
       if (username && password) {
-        this.login({ username, password });
+        this.login({ username, password, remember });
       }
     },
   },

@@ -1,13 +1,14 @@
 import router from '../router';
 import ApiServices from '../services/ApiServices';
 
+/* eslint-disable no-console */
 const actions = {
-  login({ dispatch, commit }, { username, password }) {
+  login({ dispatch, commit }, { username, password, remember }) {
     commit('loginRequest', { username });
 
-    ApiServices.login(username, password)
-      .then((userdata) => {
-        commit('loginSuccess', userdata);
+    ApiServices.login({ username, password, remember })
+      .then((response) => {
+        commit('loginSuccess', response);
         router.push('/');
       },
       (error) => {
@@ -16,8 +17,14 @@ const actions = {
       });
   },
   logout({ commit }) {
-    ApiServices.logout();
+    const user = JSON.parse(localStorage.getItem('user'));
+    const rememberToken = user.remember_token;
+    const token = JSON.parse(localStorage.getItem('token'));
+    ApiServices.logout({ rememberToken, token });
     commit('logout');
+  },
+  test() {
+    ApiServices.test();
   },
   register({ dispatch, commit }, userdata) {
     commit('registerRequest', userdata);
@@ -45,10 +52,13 @@ const mutations = {
     state.status = { loggingIn: true };
     state.user = username;
   },
-  loginSuccess(state, username) {
+  loginSuccess(state, response) {
     state.status = { loggedIn: true };
-    state.user = username;
-    localStorage.setItem('user', JSON.stringify(username));
+    state.user = response.data.user;
+    // state.user.token = response.data.token;
+    state.token = response.data.token;
+    localStorage.setItem('user', JSON.stringify(state.user));
+    localStorage.setItem('token', JSON.stringify(state.token));
   },
   loginFailure(state) {
     state.status = {};
@@ -58,6 +68,7 @@ const mutations = {
     state.status = {};
     state.user = null;
     localStorage.removeItem('user');
+    localStorage.getItem('token');
   },
   registerRequest(state, user) {
     state.status = { registering: true };
@@ -70,15 +81,22 @@ const mutations = {
   },
 };
 
+const getters = {
+  getLoggedIn: state => state.status.loggedIn,
+  getToken: state => state.token || localStorage.getItem('token'),
+};
+
 const user = JSON.parse(localStorage.getItem('user'));
+const token = user ? user.token : null;
 
 const state = user
-  ? { status: { loggedIn: true }, user }
-  : { status: {}, user: null };
+  ? { status: { loggedIn: true }, user, token }
+  : { status: {}, user: null, token: null };
 
 export default {
   namespaced: true,
   state,
   actions,
+  getters,
   mutations,
 };

@@ -11,6 +11,7 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',
@@ -32,5 +33,6 @@ export default new Router({
       name: 'Register',
       component: Register,
     },
+    { path: '*', redirect: '/' },
   ],
 });
