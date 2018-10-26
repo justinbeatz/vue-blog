@@ -22,22 +22,35 @@ const actions = {
     const token = JSON.parse(localStorage.getItem('token'));
     ApiServices.logout({ rememberToken, token });
     commit('logout');
+    router.push('/login');
+  },
+  updateProfile({ dispatch }, userdata) {
+    /* eslint-disable no-console */
+    ApiServices.updateProfile(userdata)
+      .then((response) => {
+        dispatch('alert/success', response.data, { root: true });
+      },
+      (error) => {
+        dispatch('alert/error', error.response, { root: true });
+      });
   },
   register({ dispatch, commit }, userdata) {
     commit('registerRequest', userdata);
 
     ApiServices.register(userdata)
       .then((response) => {
-        console.log(response);
-        commit('registerSuccess', response);
-        router.push('/login');
-        setTimeout(() => {
-          // display success message after route change completes
-          dispatch('alert/success', 'Registration successful', { root: true });
-        });
+        if (response.data !== '') {
+          commit('registerSuccess', response.data);
+          router.push(`/profile/${response.data.user.id}`);
+          setTimeout(() => {
+            // display success message after route change completes
+            dispatch('alert/success', response.data, { root: true });
+          });
+        } else {
+          router.push('/register');
+        }
       },
       (error) => {
-        // console.log(error.response);
         commit('registerFailure', error);
         dispatch('alert/error', error.response, { root: true });
       });
@@ -53,7 +66,6 @@ const mutations = {
   loginSuccess(state, response) {
     state.status = { loggedIn: true };
     state.user = response.data.user;
-    // state.user.token = response.data.token;
     state.token = response.data.token;
     localStorage.setItem('user', JSON.stringify(state.user));
     localStorage.setItem('token', JSON.stringify(state.token));
@@ -71,8 +83,13 @@ const mutations = {
   registerRequest(state, user) {
     state.status = { registering: true };
   },
-  registerSuccess(state, user) {
-    state.status = {};
+  registerSuccess(state, data) {
+    state.status = { loggedIn: true };
+    state.user = data.user;
+    state.token = data.token;
+    localStorage.setItem('user', JSON.stringify(state.user));
+    localStorage.setItem('token', JSON.stringify(state.token));
+    console.log(data);
   },
   registerFailure(state, error) {
     state.status = {};
@@ -81,7 +98,8 @@ const mutations = {
 
 const getters = {
   getLoggedIn: state => state.status.loggedIn,
-  getToken: state => state.token || localStorage.getItem('token'),
+  getToken: state => state.token || JSON.parse(localStorage.getItem('token')),
+  getUser: state => state.user || JSON.parse(localStorage.getItem('user')),
 };
 
 const user = JSON.parse(localStorage.getItem('user'));

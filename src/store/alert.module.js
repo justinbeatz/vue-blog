@@ -17,11 +17,12 @@ const actions = {
     commit('success', message);
   },
 };
-
+/* eslint-disable no-console */
 const mutations = {
-  success(state, message) {
+  success(state, data) {
     state.type = 'alert-success';
-    state.message = message;
+    state.message = data.message;
+    self.$toastr.s(data.message, data.status);
   },
   error(state, response) {
     state.type = 'alert-danger';

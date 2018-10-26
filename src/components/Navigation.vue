@@ -18,7 +18,7 @@
                 Volver a la Busqueda</router-link>
               </li>
               <li class="nav-item">
-                  <router-link class="nav-link" to="/">Home</router-link>
+                  <router-link class="nav-link" to="/" exact>Home</router-link>
               </li>
               <li class="nav-item" v-show="loggedIn">
                   <router-link class="nav-link" to="/new-post">Create New Post</router-link>
@@ -28,6 +28,9 @@
               </li>
               <li class="nav-item" v-show="!loggedIn">
                   <router-link class="nav-link" to="/login">Login</router-link>
+              </li>
+              <li class="nav-item" v-show="loggedIn">
+                  <router-link class="nav-link" :to="`/profile/${userId}`">Profile</router-link>
               </li>
               <li class="nav-item" v-show="loggedIn">
                   <a href="#" class="nav-link" @click="logOut()">Logout</a>
@@ -46,10 +49,8 @@ export default {
   data() {
     return {
       links: [],
+      userid: '',
     };
-  },
-  mounted() {
-    // this.loggedIn = localStorage.getItem('user') !== null;
   },
   computed: {
     ...mapState('blog', {
@@ -59,6 +60,7 @@ export default {
     ...mapGetters('account', {
       userIn: 'getLoggedIn',
       token: 'getToken',
+      user: 'getUser',
     }),
     ...mapActions({
       togglePost: 'blog/toggleBlogPost',
@@ -66,6 +68,9 @@ export default {
     }),
     loggedIn() {
       return this.userIn;
+    },
+    userId() {
+      return this.user ? this.user.id : null;
     },
   },
   watch: {

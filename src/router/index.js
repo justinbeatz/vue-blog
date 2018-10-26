@@ -4,8 +4,10 @@ import Router from 'vue-router';
 // import Home from '@/components/Home';
 import BlogPost from '@/components/blog/BlogPost';
 import BlogFeed from '@/components/blog/BlogFeed';
+import NewPost from '@/components/blog/NewPost';
 import Login from '@/components/login/Login';
 import Register from '@/components/register/Register';
+import EditProfile from '@/components/profile/EditProfile';
 
 Vue.use(Router);
 
@@ -24,6 +26,11 @@ export default new Router({
       component: BlogPost,
     },
     {
+      path: '/new-post',
+      name: 'NewPost',
+      component: NewPost,
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login,
@@ -32,6 +39,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register,
+    },
+    {
+      path: '/profile/:id',
+      name: 'EditProfile',
+      component: EditProfile,
     },
     { path: '*', redirect: '/' },
   ],

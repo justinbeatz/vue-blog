@@ -1,8 +1,21 @@
-
+// import router from '../router';
+import ApiServices from '../services/ApiServices';
 
 const actions = {
   toggleBlogPost({ commit }, value) {
     commit('setBlogPost', value);
+  },
+  newPost({ dispatch }, postdata) {
+    /* eslint-disable no-console */
+    // console.log(postdata);
+    ApiServices.newPost(postdata)
+      .then((response) => {
+        dispatch('alert/success', response.data, { root: true });
+        // router.push('/');
+      },
+      (error) => {
+        dispatch('alert/error', error, { root: true });
+      });
   },
 };
 
