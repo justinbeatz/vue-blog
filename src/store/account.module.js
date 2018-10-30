@@ -28,7 +28,7 @@ const actions = {
     /* eslint-disable no-console */
     ApiServices.updateProfile(userdata)
       .then((response) => {
-        dispatch('alert/success', response.data, { root: true });
+        dispatch('alert/success', response, { root: true });
       },
       (error) => {
         dispatch('alert/error', error.response, { root: true });
@@ -39,12 +39,12 @@ const actions = {
 
     ApiServices.register(userdata)
       .then((response) => {
-        if (response.data !== '') {
-          commit('registerSuccess', response.data);
-          router.push(`/profile/${response.data.user.id}`);
+        if (response.length !== 0) {
+          commit('registerSuccess', response);
+          router.push(`/profile/${response.user.id}`);
           setTimeout(() => {
             // display success message after route change completes
-            dispatch('alert/success', response.data, { root: true });
+            dispatch('alert/success', response, { root: true });
           });
         } else {
           router.push('/register');
@@ -65,8 +65,10 @@ const mutations = {
   },
   loginSuccess(state, response) {
     state.status = { loggedIn: true };
-    state.user = response.data.user;
-    state.token = response.data.token;
+    console.log(response);
+    console.log(state);
+    state.user = response.user;
+    state.token = response.token;
     localStorage.setItem('user', JSON.stringify(state.user));
     localStorage.setItem('token', JSON.stringify(state.token));
   },

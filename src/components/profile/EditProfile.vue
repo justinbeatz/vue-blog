@@ -83,22 +83,16 @@ export default {
   methods: {
     ...mapActions('account', ['updateProfile', 'logout']),
     async getProfile() {
-      try {
-        const response = await ApiServices.getProfile();
-        // console.log(response);
-        if (response.data.length !== 0) {
-          const data = response.data.user;
-          this.user.email = data.email;
-          this.user.username = data.username;
-          this.user.firstname = data.firstname;
-          this.user.lastname = data.lastname;
-          this.user.bio = data.bio;
-          this.user.type = data.type;
-        }
-      } catch (e) {
-        if (e.response.status === 401 && e.response.data.error === 'token_expired') {
-          this.logout();
-        }
+      const response = await ApiServices.getProfile();
+      // console.log(response);
+      if (response.length !== 0) {
+        const data = response.user;
+        this.user.email = data.email;
+        this.user.username = data.username;
+        this.user.firstname = data.firstname;
+        this.user.lastname = data.lastname;
+        this.user.bio = data.bio;
+        this.user.type = data.type;
       }
     },
     handleSubmit() {

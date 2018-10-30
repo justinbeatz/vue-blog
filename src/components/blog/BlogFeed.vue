@@ -132,14 +132,9 @@ export default {
   },
   methods: {
     async getFeed() {
-      try {
-        const response = await ApiServices.feed();
-        if (response.data.length !== 0) {
-          this.feed = response.data;
-        }
-      } catch (e) {
-        /* eslint-disable no-console */
-        console.log(e);
+      const response = await ApiServices.feed();
+      if (response.length !== 0) {
+        this.feed = response;
       }
     },
     setList() {
